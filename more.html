@@ -1,0 +1,749 @@
+<html lang="en"><head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>Simple PWA</title>
+	<link rel="canonical" href="https://simplepwa.com">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<!-- Icons and Colors -->
+	<link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
+	<link rel="manifest" href="./manifest.json">
+	<link rel="mask-icon" href="./safari-pinned-tab.svg" color="#000000">
+	<link rel="shortcut icon" href="./favicon.ico">
+	<meta name="msapplication-TileColor" content="#000000">
+	<meta name="msapplication-TileImage" content="./mstile-144x144.png">
+	<meta name="msapplication-config" content="./browserconfig.xml">
+	<meta name="theme-color" content="#000000">
+	
+	<!-- SEO and Social Sharing and SEO -->
+	<meta name="description" content="Simple Progressive Web App (PWA) template">
+	<meta name="robots" content="noodp">
+	<meta name="author" content="Nicole Furlan">
+	<meta name="keywords" content="progressive web app, progressive web application, pwa, pwa progressive web app, pwa progressive web application, progressive app, basic progressive web app, basic progressive web application, basic pwa, example progressive web app, example progressive web application, example pwa, progressive web app basic, progressive web app builder, progressive web app example, progressive web app sample, progressive web app template, sample progressive web app, sample progressive web application, sample pwa, free progressive web application template, progressive web application template, progressive web app template free, progressive web app template free download, progressive web app html template, progressive web app template github">
+	<meta property="og:locale" content="en_US">
+	<meta property="og:type" content="website">
+	<meta property="og:title" content="Simple PWA">
+	<meta property="og:description" content="Simple Progressive Web App (PWA) template">
+	<meta property="og:url" content="https://simplepwa.com">
+	<meta property="og:site_name" content="Simple PWA">
+	<meta property="section:publisher" content="https://www.facebook.com/simplepwa/">
+	<meta property="og:image" content="https://simplepwa.com/share.jpg">
+	<meta name="twitter:card" content="summary_large_image">
+	<meta name="twitter:title" content="Simple PWA">
+	<meta name="twitter:description" content="Simple Progressive Web App (PWA) template">
+	<meta name="twitter:site" content="@simplepwa">
+	<meta name="twitter:image" content="https://simplepwa.com/share.jpg">
+	<meta name="twitter:creator" content="@nicolemfurlan">
+
+	
+
+	<!-- Javscript -->
+	
+	
+	 
+<style>
+        ::root {
+    /* Warna */
+    --font-family: Arial, sans-serif;
+    --ff-monospace:Space Mono,monospace;
+    --ff-apple:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    --font-weight:400;
+    --font-size:1.3rem;
+    --bg-color: #F8F9FA;
+    --primary-color: #28A745;
+    --accent-color: #F44336;
+    --title-color: #4CAF50;
+    --card-bg: #E8F5E9;
+    --category-bg: #E2EEFF;
+    --notif-bg: #fff;
+    --notif-border: #28A745;
+    --notif-color: #F44336;
+    --tab-bar-bg: wheat;
+    --ads-border: #f39c12;
+    --ads-bg: #fcf8e3;
+    --card-border: 1px solid #28A745;
+    --trending-bg: #EF9A9A;
+    --trending-color: #F44336;
+    --trend-width: 10%;
+    --trend-border-radius: 10%;
+    --trend-border: 3px solid transparent;
+    --trend-hover-bg: #A5D6A7;
+    --trend-hover-border-color: #ff4b2b;
+    --trend-text-color: #fff;
+    --trend-text-bg: #28A745;
+    --trend-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    --trending-img-border: 1px solid #28A745;
+    --trending-img-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    --scrollbar-thumb-color: rgba(0, 0, 0, 0.3);
+    --box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    --border-radius: 20px;
+    --border-radius-ll: 24px;} 
+    
+html{
+  -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+}
+
+html{
+  background-color: var(--bg-color);
+  color:var(--title-color);
+  scroll-behavior: auto;}    
+
+a{
+  text-decoration:none;
+  -webkit-tap-highlight-color: transparent;
+}
+    
+
+/* Global Styles */
+body {font-family: var(--font-family);
+    tbackground-color: var(--bg-color);
+    background:hsla(0,0%,100%,.4);
+    margin: 0;
+    padding: 20px 0 60px;
+    margin-bottom: 50px;
+    -webkit-tap-highlight-color: transparent;
+    word-wrap: break-word;
+    -moz-font-smoothing: grayscale;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    -webkit-overflow-scrolling: touch;
+    -webkit-text-size-adjust: none;}
+
+a {text-decoration: none;
+    color: var(--primary-color);
+    font-weight: bold;}
+
+a:hover {text-decoration:underline;}
+
+/* Scroll and container adjustments */
+.tab-bar {margin-top:60px;}
+#container {margin-top:5px;}
+
+/* Style for .hs container */
+.hs {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    overflow-x: auto;
+    z-index: 1000;
+    background-color: #f4f4f9; /* Background yang lebih lembut dan elegan */
+    padding: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Shadow lebih halus */
+    white-space: nowrap;
+}
+
+/* Style for the links inside .hs */
+.hs a {
+    display: inline-block;
+    color: #4f5d75; /* Warna teks lembut dan modern */
+    font-weight: bold;
+    text-decoration: none;
+    padding: 10px;
+    margin-right: 10px;
+    background: #e8eff1; /* Background lembut yang menyatu dengan desain */
+    border-radius: 8px;
+    flex-shrink: 0;
+    text-transform: uppercase;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Shadow ringan */
+    
+}
+
+/* Hover effect for .hs a */
+.hs a:hover {
+    background: #5e6e7e; /* Background lebih gelap saat hover */
+    color: #ffffff; /* Warna teks berubah jadi putih */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2); /* Shadow sedikit lebih kuat saat hover */
+}
+
+
+
+.category {
+    font-family: var(--ff-apple);
+    max-width: 600px;
+    margin: 5px auto;
+    
+    /* Background yang lebih ramah untuk mata */
+    background: linear-gradient(135deg, #f4f4f9, #e0e7ff); /* Gradien lembut antara putih dan biru muda */
+    
+    /* Warna teks yang lebih lembut */
+    color: #5d6d7e; /* Warna abu-abu kebiruan yang lebih tenang */
+    
+    padding: 15px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); /* Bayangan halus */
+    border-radius: 12px; /* Radius lebih lembut */
+    
+    display: grid; /* Ubah menjadi grid */
+    grid-template-columns: repeat(4, 1fr); /* 4 kolom dengan lebar yang sama */
+    gap: 10px; /* Jarak antar-elemen di grid */
+}
+
+ 
+
+.category h2 {position: relative;
+   font-family: var(--ff-monospace);
+    margin-top: 0;
+    padding-left:10px;
+    font-size: 1.0em;
+    text-transform: uppercase;
+    color: var(--primary-color);
+    z-index: 1;
+}
+
+.category h2::before {
+    content: "#";
+    position: absolute;
+    left: 0%;
+    top: 0;padding-right: 0px;
+    twidth: calc(50vw - 39em);
+    theight: 207px;
+    color: #03A9F4;
+  }
+
+
+
+ 
+/* Card Styles */
+/* Card Styles */
+.card {
+  position: relative;
+  font-family: "Space Mono", monospace;
+  font-size: 0.9rem;
+  font-weight: 300;
+  margin-bottom: 5px;
+  padding: 10px 0;
+  border-radius: 15px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  
+  /* Gradien yang lebih lembut dan ramah di mata */
+  background: linear-gradient(135deg, #d2e7f7, #e1f1f7); /* Lembut dan menenangkan */
+  
+  /* Border yang lebih halus dan transparan */
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  
+  /* Bayangan yang lebih lembut */
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1); /* Bayangan halus yang tidak mencolok */
+  
+  /* Efek transisi untuk responsif */
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  
+  /* Border tambahan agar terlihat lebih halus */
+  border: var(--card-border, 1px solid #ddd);
+}
+
+.card:hover {
+  transform: translateY(-5px); /* Efek sedikit terangkat saat hover */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2); /* Bayangan lebih kuat saat hover */
+}
+
+
+
+
+
+/* Card Title (h3) */
+.card h3 {
+  position: relative; /* Tetap dalam aliran elemen .card */
+  font-size: 1em;
+  margin: 0;
+  padding: 5px 0;
+  white-space: normal;
+  
+  /* Warna teks yang lebih lembut */
+  color: #2c3e50; /* Teks warna biru gelap, lebih tenang dan elegan */
+  
+  width: 100%;
+  text-align: center;
+  
+  /* Pembatas atas dan bawah lebih lembut */
+  border-top: 1px solid rgba(255, 255, 255, 0.4);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+
+  /* Latar belakang semi-transparan yang lebih lembut */
+  background-color: rgba(255, 255, 255, 0.15); /* Latar belakang lebih transparan dan ramah di mata */
+}
+
+
+/* Card Paragraph (p) */
+.card p {
+  font-family: var(--ff-monospace, monospace);
+  position: relative;
+  margin:5px 0;
+  color: #333;
+  font-size: 0.85em;
+  white-space: normal; /* Teks dapat terbungkus */
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 2;
+  margin-bottom:20px;
+}
+
+/* Card Link (a) */
+.card a {position: absolute; /* Pastikan tetap absolut untuk posisi relatif terhadap .card */
+  bottom: 0; /* Tetap di bagian bawah */
+  left: 0; /* Dimulai dari kiri */
+  box-sizing: border-box; /* Mengatur model kotak */
+  font: inherit;
+  line-height: 1;
+  padding: 0; /* Perbaiki properti padding */
+  margin-top: 100px;
+  text-indent: 1em;
+  border: none;
+  display: inline-block;
+  color: #333;
+  width: auto;
+  text-decoration: none;
+  font-size: 0.85em;
+  background: var(--card-tbg, #fff);
+  padding: 5px 20px;
+  border-radius: 10px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border: 1px solid #fff;
+  transition: all 0.3s ease-in-out;
+   z-index: 1;
+}
+
+.card a:hover {
+  background-color: #d6d6d6;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+
+  
+.card a::before {
+  content: ""; /* Membuat pseudo-element kosong */
+  position: absolute;
+  top: 50%; /* Menempatkan di tengah */
+  left:15%; /* Menempatkan di tengah */
+  transform: translate(-50%, -50%); /* Menyeimbangkan posisi */
+  width:1.6em; /* Ukuran ikon */
+  height: 1.6em; 
+  color: #333;  
+  background-color: #fff; 
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' class='feather feather-share-2'%3E%3Ccircle cx='18' cy='5' r='3'/%3E%3Ccircle cx='6' cy='12' r='3'/%3E%3Ccircle cx='18' cy='19' r='3'/%3E%3Cline x1='8.59' y1='13.51' x2='15.42' y2='17.49'/%3E%3Cline x1='15.41' y1='6.51' x2='8.59' y2='10.49'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  background-position: 30% 40%;
+  border-radius: 50%; }
+
+
+
+
+
+
+
+.card .tags {
+    margin-top: 10px;
+}
+
+.card .tags span {
+    background: #4CAF50;
+    color: #fff;
+    padding: 5px;
+    border-radius: 3px;
+    font-size: 0.6em;
+}
+
+/* Tab Bar */
+.tab-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 99999;
+    align-items: center;
+    background: var(--tab-bar-bg);
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.tab-bar a {
+    color: #333;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+/* Ad Card */
+.ads {
+    border: 1px dashed #d1e7d7; /* Border dengan warna hijau lembut */
+    padding: 15px;
+    background: linear-gradient(135deg, #f5fdf7, #eaf7f1); /* Gradien pastel yang lembut */
+    margin-bottom: 20px;
+    border-radius: 10px 5px 5px 10px; /* Sudut membulat dengan desain lembut */
+    text-align: center;
+    cursor: pointer;
+    font-size: 0.9em;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05); /* Bayangan halus untuk kesan ringan */
+    color: #4e6e60; /* Warna hijau lembut untuk teks */
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.ads:hover {
+    background: linear-gradient(135deg, #e0f3e2, #d6f1e4); /* Hover dengan gradien yang sedikit lebih gelap */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15); /* Bayangan lebih besar pada hover */
+}
+
+
+/* Notification */
+.notif {
+    justify-content: center;
+    position: relative;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 98%;
+    display: flex;
+    margin-top:20px;
+    padding: 10px 0;
+    border-radius: 0 0 67% 0;
+    tborder-radius: 15px;
+    ttext-align: center;
+    white-space: wrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    background: linear-gradient(135deg, #f1f8f6, #e2f7f1); /* Gradien pastel lembut */
+    border-radius: 15px 15px 10px 10px;
+    box-shadow: 0 -3px 10px rgba(0, 0, 0, 0.05); /* Bayangan halus untuk kesan modern */
+}
+
+.notif h1,
+.notif h2 {
+    color: #4e6e60; /* Warna hijau pastel yang ramah untuk mata */
+    text-decoration: none;
+    font-size: 16px;
+    border: 1px solid #d6e2e1; /* Border warna abu-abu muda yang lembut */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Bayangan halus */
+    padding: 5px 15px;
+    border-radius: 24px;
+    background-color: rgba(255, 255, 255, 0.8); /* Latar belakang semi-transparan untuk teks */
+
+}
+
+
+    
+/* General Button Styles */
+button {-webkit-user-select: none;
+-moz-user-select: none;
+-ms-user-select: none;
+user-select: none;}
+
+/* Hide Webkit Scrollbar */
+::-webkit-scrollbar{display:none;}
+
+
+/* Mobile Navigation */
+@media (max-width: 480px) {
+.nav-item {font-size: 12px;}
+.nav-icon {font-size: 18px;}
+.trend-wrap {display:flex;overflow-x: auto;padding:10px;gap:5px;margin-top: 10vh;} }
+     
+    
+/* Tablet - Left-side Navigation */     
+@media (min-width: 481px) and (max-width: 768px) {
+.category{border-radius:15px;width:90%;  gap:0.6rem;column-count:6;column-fill: balance;justify-content:space-between;
+overflow: auto;} 
+
+.container {display:grid;grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));grid-gap:20px;-moz-column-gap:19px;align-self:flex-start;max-width:1000px;
+margin:20px auto;padding:0 20px;}   }
+ 
+
+/* Laptop and Desktop */
+@media (min-width: 769px) {.category{border-radius:15px;width:90%;  gap:0.6rem;column-count:8; column-fill: balance;justify-content: space-between;
+overflow: auto;} 
+     
+.header{position:fixed;margin-top:2%;}   
+.trend-wrap {display:flex;overflow-x: auto;padding:10px;gap:5px;margin-top:100px;} 
+}
+           
+  
+@media (min-width: 768px) {
+    /* Styles for tablets and larger devices */ 
+.header {position:fixed;top:0; height:40px;z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;} 
+             
+.hs {position:fixed;bottom:0px;left:0;
+width:100%;display:flex;overflow-x:auto;
+background:#FFEBEE;padding:10px;
+box-shadow:0 2px 10px rgba(0,0,0,0.1);
+white-space:nowrap;}            }
+
+
+
+@media only screen and (max-width: 600px) { 
+.category{border-radius:15px;max-width:600px; column-gap:4px;column-count:4; column-fill:balance;justify-content:space-between;overflow:auto;} }
+  
+
+/* Responsif: Tampilan di PC dan laptop (lebih besar dari 1024px) */
+@media screen and (min-width: 1024px) {
+.trend {min-width:100px;}
+.trend img {width:80px;height:80px;}
+.trend p {font-size:16px;}
+} 
+
+/* Responsif: Tampilan di tablet (lebih besar dari 768px dan kurang dari 1024px) */
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+.trend {min-width:90px;}
+.trend img {width:70px;height:70px;}
+.trend p {font-size:15px;}
+} 
+
+/* Responsif: Tampilan di perangkat Android dan layar kecil (lebih kecil dari 768px) */
+@media screen and (max-width: 768px) {
+.trend {min-width:70px;padding:3px;}
+.trend img {width:50px;height:50px;}
+.trend p {font-size: 12px;}
+}
+
+
+
+
+
+/* Dark Mode based on system preference */
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #181818;
+        color: #e0e0e0;
+    }
+}
+
+
+/* Default light mode */
+:root {
+    --bg-color: #f0f2f5;
+    --text-color: #333;
+    --link-color: #1a73e8;
+    --button-bg: #F44336;
+    --button-hover-bg: #66BB6A;
+    --header-bg: linear-gradient(45deg, #ff416c, #ff4b2b);
+    --header-box-shadow: rgba(0, 0, 0, 0.1);
+    --card-bg: #fff;
+    --card-text-color: #333;
+    --category-bg: #fff;
+    --category-text-color: #333;
+}
+
+/* Dark Mode */
+body.dark-mode {
+    --bg-color: #181818;
+    --text-color: #e0e0e0;
+    --link-color: #9ecfff;
+    --button-bg: #6200ea;
+    --button-hover-bg: #3700b3;
+    --header-bg: #e0e0e0;
+    --header-box-shadow: rgba(0, 0, 0, 0.2);
+    --card-bg: #333;
+    --card-text-color: #fff;
+    --category-bg: #444;
+    --category-text-color: #e0e0e0;
+}
+
+/* Apply the colors based on custom properties */
+body {
+    background-color: var(--bg-color);
+    tcolor: var(--text-color);
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px 0 60px;
+}
+
+a {tcolor:var(--link-color);}
+button {background-color:var(--button-bg);}
+
+button:hover {background-color: var(--button-hover-bg);}
+
+.tnotif h1,
+.tnotif h2 {color: #F44336;}
+
+.header {background: var(--header-bg);
+box-shadow: 0 2px 10px var(--header-box-shadow);}
+
+.category {background: var(--category-bg);color: var(--category-text-color);}
+
+.card {tbackground: var(--card-bg);
+border:none;tbox-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); }
+
+.card a {color: var(--category-text-color);}
+
+.card h3 {font-size:0.9em;
+            margin-top: 0;white-space:wrap;tcolor: #28A745; }
+
+/* You can continue to define other elements similarly */
+
+.trend {
+    tbackground: var(--card-bg);
+    color: var(--card-text-color);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);border-radius: 10px;
+}
+.ths {background: var(--card-bg); color: var(--card-text-color);}
+
+.ths a {background: var(--bg-color); color: var(--card-text-color);border-radius: 10px;}
+
+
+.notif {background: var(--card-bg);
+    color: var(--card-text-color);}
+.header {background: var(--card-bg);
+    color: var(--card-text-color);}    
+.id {background: var(--card-bg);
+    color: var(--card-text-color);}    
+    
+/* Button for Dark Mode Toggle */
+#toggle-dark-mode{
+    position: fixed;
+    top:0px;
+    right:15px;
+    padding:5px 5px;
+    tbackground-color: transparent;
+    backdrop-filter: blur(25px);
+    background-color: rgba(255, 255, 255, 0.3);
+    tbox-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+    color: white;
+    border-radius: 50%;
+    border: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    z-index: 9999; /* Ensures it's on top */
+    transition: background-color 0.3s ease;
+}
+
+
+
+
+
+/* Change button background color when in dark mode */
+body.dark-mode #toggle-dark-mode {
+    tbackground-color: #3700b3;
+}
+
+#toggle-dark-mode:hover {
+    tbackground-color: #6200ea;
+}
+
+/* Optionally, we can add a hover effect for the button */
+#toggle-dark-mode:active {
+    tbackground-color: #3f0071;
+}
+
+
+
+.tiktok-header {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  width:100%;
+}
+
+.profile-picture {
+  margin-right: 10px;
+   width:2.9em; /* Ukuran ikon */
+  height:2.9em;  
+  color: #333; 
+  text-align: center;
+  background-color: #fff; 
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg%20fill='%231877f2'%20height='24'%20viewBox='0%200%2024%2024'%20width='24'%20xmlns='http://www.w3.org/2000/svg'%20class='feather%20feather-user-plus'%3E%3Cpath%20d='M0%200h24v24H0z'%20fill='none'%3E%3C/path%3E%3Cpath%20d='M11.99%202C6.47%202%202%206.48%202%2012s4.47%2010%209.99%2010C17.52%2022%2022%2017.52%2022%2012S17.52%202%2011.99%202zM12%2020c-4.42%200-8-3.58-8-8s3.58-8%208-8%208%203.58%208%208-3.58%208-8%208zm3.5-9c.83%200%201.5-.67%201.5-1.5S16.33%208%2015.5%208%2014%208.67%2014%209.5s.67%201.5%201.5%201.5zm-7%200c.83%200%201.5-.67%201.5-1.5S9.33%208%208.5%208%207%208.67%207%209.5%207.67%2011%208.5%2011zm3.5%206.5c2.33%200%204.31-1.46%205.11-3.5H6.89c.8%202.04%202.78%203.5%205.11%203.5z'%3E%3C/path%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: 1.5em 1.5em;
+  background-position: 50% 40%;  
+  border-radius: 50%; 
+}
+
+.tiktok-info {
+  flex: 1;
+}
+
+.username {
+  margin: 0;
+}
+
+.description {
+  margin: 5px 0;
+  font-size: 14px;
+}
+ 
+.follow-button {
+  tbackground-color: #ff385c;
+  color: #ff385c;
+  font-size:2.1em;
+  border: none;
+  border-radius: 20px;
+  padding: 5px 10px;
+}
+
+
+
+
+#back {
+    position: fixed;
+    display: flex;
+    align-items: center; /* Menyelaraskan secara vertikal */
+    top: 0;
+    left: 15px;
+    padding: 5px 5px;
+    background-color: rgba(255, 255, 255, 1.8);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    color: #333;
+    border-radius: 0 0 10px 10px;
+    border: none;
+    cursor: pointer;
+    font-size: 1rem;
+    z-index: 9999; /* Ensures it's on top */
+    transition: background-color 0.3s ease;
+}
+
+#back svg {color: #333;
+    margin-right: 8px; /* Menambahkan jarak antara SVG dan teks */
+}
+
+#back span {
+    display: inline-block; /* Pastikan teks berada dalam elemen span */
+}
+
+
+.info-card {background: #ffffff;
+border-radius:8px;box-shadow:0 4px 8px rgba(0,0,0,0.1);padding:20px;margin-top:20px;max-width: 400px;justify-content:center;position: relative;left: 50%;transform: translateX(-50%);}
+
+.info-card h2 {color:#333;margin-bottom: 10px;}
+
+.info-card .date {color:#888;font-size: 0.9em;margin-bottom: 20px;}
+
+.info-card .content {text-align:left;color:#555;line-height:1.4;margin-bottom:20px;}
+
+.info-card .read-more {color: #4285f4;text-decoration: none;font-weight: bold;}
+
+.info-card .read-more:hover {text-decoration: underline;}
+</style>
+</head>
+<body>
+	
+    
+<a id="back"href="https://chat.openai.com/?q="target="_blank"> 
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" class="feather" viewBox="0 0 24 24"><path fill="currentColor" d="M10,9V5L3,12L10,19V14.9C15,14.9 18.5,16.5 21,20C20,15 17,10 10,9Z" /></svg>
+    <span>Back</span>
+</a>
+
+
+    <div class="info-card">
+        <h2>Artificial Intelligence (AI)</h2>
+        <p class="date"> By Copilot</p>
+        <p class="content">Adalah teknologi yang memungkinkan komputer dan mesin untuk melakukan tugas yang biasanya membutuhkan kecerdasan manusia. Ini termasuk <mark> belajar dari data</mark>, mengenali suara dan gambar, memahami bahasa, membuat keputusan, dan bermain game. AI digunakan dalam berbagai aplikasi seperti mobil tanpa pengemudi, asisten virtual, dan analisis data untuk mendukung keputusan bisnis. 
+        </p>
+        <a href="#" class="read-more">#mansitee</a>
+    </div>
+
+ 
+    
+    <section id="container"><div class="category" id="ai"><h2>ai</h2><div class="card"><h3>Chatgpt</h3><p> OpenAi</p><a href="https://chat.openai.com/?q=" target="_blank">Views</a></div><div class="card"><h3>Bing Ai</h3><p> Microsoft</p><a href="https://www.bing.com/search?showconv=1&amp;sendquery=1&amp;q=" target="_blank">Views</a></div><div class="card"><h3>perplexity</h3><p> </p><a href="https://www.perplexity.ai/?q=" target="_blank">Views</a></div><div class="card"><h3>hugging face</h3><p> </p><a href="https://huggingface.co/chat?q=" target="_blank">Views</a></div><div class="card"><h3>claude ai</h3><p> </p><a href="https://claude.ai/newq=" target="_blank">Views</a></div><div class="card"><h3>Gemini ai</h3><p> Google</p><a href="https://gemini.google.com/app?q=" target="_blank">Views</a></div><div class="card"><h3>Meta Ai</h3><p> Meta</p><a href="https://www.meta.ai/?q=" target="_blank">Views</a></div><div class="card"><h3>You Ai</h3><p> </p><a href="https://you.com/search?fromSearchBar=true&amp;tbm=youchat&amp;q=" target="_blank">Views</a></div><div class="card"><h3>Phind Ai</h3><p> </p><a href="https://www.phind.com/agent?q=" target="_blank">Views</a></div><div class="card"><h3>Firefly ai</h3><p> Adobe</p><a href="https://firefly.adobe.com/generate/images?prompt=" target="_blank">Views</a></div></div>  </section>
+
+</body> </html>

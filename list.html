@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+ <html lang="en">
+
+ <head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+	<title>Simple PWA</title>
+	<link rel="canonical" href="https://simplepwa.com" />
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<!-- Icons and Colors -->
+	<link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png">
+	<link rel="icon" type="image/png" sizes="32x32" href="./favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="./favicon-16x16.png">
+	<link rel="manifest" href="./manifest.json">
+	<link rel="mask-icon" href="./safari-pinned-tab.svg" color="#000000">
+	<link rel="shortcut icon" href="./favicon.ico">
+	<meta name="msapplication-TileColor" content="#000000">
+	<meta name="msapplication-TileImage" content="./mstile-144x144.png">
+	<meta name="msapplication-config" content="./browserconfig.xml">
+	<meta name="theme-color" content="#000000">
+	
+	<!-- SEO and Social Sharing and SEO -->
+	<meta name="description" content="Simple Progressive Web App (PWA) template" />
+	<meta name="robots" content="noodp" />
+	<meta name="author" content="Nicole Furlan">
+	<meta name="keywords" content="progressive web app, progressive web application, pwa, pwa progressive web app, pwa progressive web application, progressive app, basic progressive web app, basic progressive web application, basic pwa, example progressive web app, example progressive web application, example pwa, progressive web app basic, progressive web app builder, progressive web app example, progressive web app sample, progressive web app template, sample progressive web app, sample progressive web application, sample pwa, free progressive web application template, progressive web application template, progressive web app template free, progressive web app template free download, progressive web app html template, progressive web app template github" />
+	<meta property="og:locale" content="en_US" />
+	<meta property="og:type" content="website" />
+	<meta property="og:title" content="Simple PWA" />
+	<meta property="og:description" content="Simple Progressive Web App (PWA) template" />
+	<meta property="og:url" content="https://simplepwa.com" />
+	<meta property="og:site_name" content="Simple PWA" />
+	<meta property="section:publisher" content="https://www.facebook.com/simplepwa/" />
+	<meta property="og:image" content="https://simplepwa.com/share.jpg" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content="Simple PWA" />
+	<meta name="twitter:description" content="Simple Progressive Web App (PWA) template" />
+	<meta name="twitter:site" content="@simplepwa" />
+	<meta name="twitter:image" content="https://simplepwa.com/share.jpg" />
+	<meta name="twitter:creator" content="@nicolemfurlan" />
+
+	<link rel="stylesheet" href="css/list.css">  
+
+	<!-- Javscript -->
+	<script>
+		if ("serviceWorker" in navigator) {
+			window.addEventListener("load", () => {
+				navigator.serviceWorker && navigator.serviceWorker.register("./sw.js");
+			});
+		}
+	</script>
+	<script defer src="./main.js"></script>
+	 
+
+</head>
+<body>   
+<div class="hs" id="menu"> </div>
+ 
+<button id="toggle-dark-mode">🌞</button>
+
+
+    <div class="notif">
+<div class="tiktok-header"> <div class="profile-picture">	</div>
+    <div class="tiktok-info">
+      <h3 class="username"id="ip-address"> <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24"><path fill="currentColor" d="M12,11.5A2.5,2.5 0 0,1 9.5,9A2.5,2.5 0 0,1 12,6.5A2.5,2.5 0 0,1 14.5,9A2.5,2.5 0 0,1 12,11.5M12,2A7,7 0 0,0 5,9C5,14.25 12,22 12,22C12,22 19,14.25 19,9A7,7 0 0,0 12,2Z"></path></svg>ip address</h3>  <p class="description"id="screen">Device </p>
+    </div>
+    <div class="follow-button"id="country"> s</div>
+  </div> </div>
+ 
+  
+ 
+    <section id="container"></section>
+
+ <script type='text/javascript' src="js/list.js"></script>    
+        
+    <script>document.addEventListener("DOMContentLoaded", function() {
+  fetch('https://ipinfo.io/json')
+    .then(response => response.json())
+    .then(data => {
+      document.getElementById('ip-address').innerText = `IP : ${data.ip}`;
+      document.getElementById('country').innerText = ` ${data.country}`;
+      document.getElementById('software').innerText = ` Soft : ${data.org}`;
+    })
+    .catch(error => console.error('Error:', error));
+});</script>
+
+
+
+<script>function screenSize() {
+  var width = screen.width;
+  var height = screen.height;
+
+  document.getElementById("screen").innerHTML = width + " x " + height;
+}
+
+screenSize();
+
+setInterval(() => {
+  screenSize();
+}, 100);
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    // Pastikan untuk mengambil elemen tombol dan input pencarian
+    const searchButton = document.getElementById("search-button");
+    const searchQuery = document.getElementById("search-query");
+    const searchEngine = document.getElementById("search-engine");
+
+    // Tambahkan event listener untuk tombol cari
+    searchButton.addEventListener("click", function() {
+        search(searchQuery.value, searchEngine.value);
+    });
+
+    // Fungsi untuk melakukan pencarian
+    function search(query, engineUrl) {
+        // Cek apakah query pencarian kosong
+        if (query.trim() === "") {
+            alert("Masukkan kata kunci terlebih dahulu.");
+            return;  // Jangan lanjutkan jika query kosong
+        }
+
+        // Buat URL pencarian berdasarkan mesin pencari yang dipilih
+        const searchUrl = engineUrl + encodeURIComponent(query);
+        
+        // Redirect ke URL pencarian
+        window.location.href = searchUrl;
+    }
+});
+
+</script>
+
+
+
+<script>
+    const toggleButton = document.getElementById('toggle-dark-mode');
+    const body = document.body;
+
+    // Check if dark mode is enabled in localStorage
+    if (localStorage.getItem('dark-mode') === 'enabled') {
+        body.classList.add('dark-mode');
+        toggleButton.textContent = '🌒'; // Switch to dark mode icon
+    }
+
+    // Toggle dark mode on button click
+    toggleButton.addEventListener('click', () => {
+        body.classList.toggle('dark-mode');
+        
+        // Toggle icon based on dark mode status
+        if (body.classList.contains('dark-mode')) {
+            toggleButton.textContent = '🌒'; // Dark mode icon
+            localStorage.setItem('dark-mode', 'enabled');
+        } else {
+            toggleButton.textContent = '🌞'; // Light mode icon
+            localStorage.setItem('dark-mode', 'disabled');
+        }
+    });
+</script>
+
+<script>
+        // Memastikan Service Worker dapat dipasang
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(registration => {
+                        console.log('Service Worker terdaftar dengan baik:', registration);
+                    })
+                    .catch(error => {
+                        console.log('Pendaftaran Service Worker gagal:', error);
+                    });
+            });
+        }
+        
+        
+        
+        
+        
+            // Lazy load effect
+      const cards = document.querySelectorAll(".category");
+
+      const observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("visible");
+              observer.unobserve(entry.target);
+            }
+          });
+        },
+        { threshold: 0.1 }
+      );
+
+      category.forEach((category) => observer.observe(category));
+    });
+    </script>
+
+</body>
+</html>

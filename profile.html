@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CV - John Doe</title>
+  <link rel="stylesheet" href="css/tabbar.css">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background: #f4f4f4;
+      padding: 20px;
+      text-align: center;
+    }
+    main {
+      padding: 20px;
+    }
+    section {
+      margin-bottom: 20px;
+    }
+    ul {
+      list-style-type: none;
+      padding: 0;
+    }
+    li {
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1 id="name"></h1>
+    <h2 id="title"></h2>
+    <p id="contact"></p>
+  </header>
+  <main>
+    <section id="experience">
+      <h3>Experience</h3>
+      <ul id="experience-list"></ul>
+    </section>
+    <section id="education">
+      <h3>Education</h3>
+      <ul id="education-list"></ul>
+    </section>
+  </main>
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const data = {
+        "name": "John Doe",
+        "title": "Web Developer",
+        "contact": {
+          "email": "johndoe@example.com",
+          "phone": "+123456789"
+        },
+        "experience": [
+          {
+            "company": "Tech Solutions",
+            "position": "Senior Developer",
+            "years": "2019-2023"
+          },
+          {
+            "company": "WebWorks",
+            "position": "Junior Developer",
+            "years": "2016-2019"
+          }
+        ],
+        "education": [
+          {
+            "institution": "University of Tech",
+            "degree": "B.Sc. Computer Science",
+            "years": "2012-2016"
+          }
+        ]
+      };
+
+      // Set name and title
+      document.getElementById('name').textContent = data.name;
+      document.getElementById('title').textContent = data.title;
+
+      // Set contact info
+      document.getElementById('contact').textContent = `Email: ${data.contact.email}, Phone: ${data.contact.phone}`;
+
+      // Populate experience
+      const experienceList = document.getElementById('experience-list');
+      data.experience.forEach(exp => {
+        const li = document.createElement('li');
+        li.textContent = `${exp.position} at ${exp.company} (${exp.years})`;
+        experienceList.appendChild(li);
+      });
+
+      // Populate education
+      const educationList = document.getElementById('education-list');
+      data.education.forEach(edu => {
+        const li = document.createElement('li');
+        li.textContent = `${edu.degree} from ${edu.institution} (${edu.years})`;
+        educationList.appendChild(li);
+      });
+    });
+  </script>
+  <script type='text/javascript' src="js/tabbar.js"></script> 
+</body>
+</html>
