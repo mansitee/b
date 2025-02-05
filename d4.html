@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <meta name="theme-color" content="#ffffff"> <title>Lazy Load Iframes v4 oke</title>
+ <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+ <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Great+Vibes&display=swap">
+ 
+ <link href="https://necolas.github.io/normalize.css/8.0.1/normalize.css"> 
+   	
+    <style>    	
+ /* CSS Reset */
+* {margin:0;padding:0;box-sizing: border-box;font-family: Arial, sans-serif;user-select: none; -ms-overflow-style: none;scrollbar-width: none; /* Firefox */ }
+
+*::-webkit-scrollbar {display: none; /* Safari and Chrome */ }
+
+
+
+html {line-height: 1.5;
+    -webkit-text-size-adjust: 100%;
+    -moz-tab-size: 4;
+    -o-tab-size: 4;
+    tab-size: 4;
+    font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    -webkit-font-smoothing: auto;
+    text-rendering: optimizeLegibility;
+    -webkit-tap-highlight-color: transparent;
+    scroll-behavior:smooth;
+    text-rendering: optimizeLegibility;user-select:none;
+    overflow: hidden;
+  -webkit-user-select: none;
+  -webkit-touch-callout: none !important;
+  user-select: none;
+ width: 100%; height: 100%; }
+    
+/* Variabel CSS */
+:root {
+--background: #F8F9FA;
+--text-color: #333;
+--card-background: #ff5555;
+--card-text: #fff;
+--box-shadow:0 4px 8px rgba(0,0,0,0.2);
+--border-radius: 8px;
+--max-width: 600px;
+--black: #000;
+--warning-border:2px solid #444;
+--warning-box-shadow:0 4px 16px rgba(0, 0,0,0.4);
+--width: 100%;
+--height:100vh;
+--height90:90vh; 
+--padding: 20px;
+--font-size: 1rem;
+--font-family: 'Arial', sans-serif;
+--border: none; }
+
+
+/* Global Styles */
+body {margin:0;padding:0;background-color:var(--black);color:var(--text-color);font-family:var(--font-family);height:var(--height);overflow-y: scroll;scroll-snap-type: y mandatory;
+-webkit-overflow-scrolling:touch;
+-webkit-text-size-adjust:100%;
+-ms-text-size-adjust:100%;width:100%; height:100%;text-rendering: optimizeLegibility; -webkit-font-smoothing:antialiased; -moz-osx-font-smoothing:grayscale; hyphens:auto;}
+
+ 
+
+/* Scroll Container */
+.scroll{width:var(--width);max-width:var(--max-width);height:var(--height);display:flex;flex-direction: column;overflow-y:scroll;scroll-snap-type:y mandatory;overscroll-behavior-y: contain; margin:auto;scrollbar-width: none;scroll-behavior: smooth;}
+
+.scroll::-webkit-scrollbar{display:none;} 
+  
+/* Iframe Container */
+.iframe-container {width:var(--width);
+max-width:var(--max-width);height:var(--height);display:flex;justify-content:center;align-items: center;scroll-snap-align:center;background-color:var(--black);position:relative; border-radius:var(--border-radius); margin-top:10px;}
+
+.iframe-container::-webkit-scrollbar {display: none;}
+
+.iframe-container iframe {width:var(--width);height:var(--height90);border: none;border-radius:var(--border-radius);
+background-color:var(--black);margin-top:10px;}
+
+.iframe-container iframe::-webkit-scrollbar {display:none;}
+    
+
+ iframe{width:var(--width);height: var(--height90);border:none;border-radius:var(--border-radius);background-color:var(--black);margin-top:10px;}   
+    
+       
+/* Video Info */
+.video-info {position:absolute;top:10px; z-index:10;width:60%;padding:5px;justify-content:center;align-items:center;background-color: rgba(255, 255, 255, 0.1); border-radius:10px;left:50%;transform: translateX(-50%);}
+
+.video-info h2 {margin:0;font-size: var(--font-size); color:white;}
+.video-info h2::before {
+    content: "ID:";
+    font-family: 'Great Vibes', cursive; /* Menggunakan font dekoratif */
+    font-size: var(--font-size); /* Pastikan variabel ini didefinisikan di tempat lain dalam CSS Anda */
+    border-radius: 10px;
+    padding: 2px 5px;
+    background-color: rgba(0,0,0,0.2);
+}
+
+.video-info p {font:0.8rem / 1 'Roboto', sans-serif;color:var(--text-color);}
+
+/* Warning Card */
+.warnings {
+    background-color: var(--card-background);
+    color: var(--card-text);
+    padding: var(--padding);
+    border-radius: var(--border-radius);
+    text-align: center;
+    max-width: 400px;
+    margin: 0 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.warnings h1{font-size:24px;margin-bottom:10px;}
+
+.warnings p {font-size:16px;}
+
+
+/* Non-Mobile Warning */
+@media (min-width: 768px) {.non-mobile-warning {display:flex;justify-content: center;align-items:center;height:var(--height);background-color:#000;}
+.scroll-container {display:none;} }
+
+@media (max-width: 767px) {.non-mobile-warning {display:none;} }
+
+
+
+ .menu {
+            background-color: transparent;
+            color: white;
+            position: fixed;
+            top: 10px;
+            border: none;
+            border-radius: 50%;
+            width: 100%;
+            max-width: 600px;
+            height: 50px;
+            display: flex;
+            left: 50%;
+            transform: translateX(-50%);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        
+.back, .share {
+    background-color: rgba(255, 255, 255, 0.1); /* Transparansi untuk efek elegan */
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3); /* Border halus */
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    cursor: pointer;
+    text-decoration: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow halus */
+    transition: background-color 0.3s, box-shadow 0.3s; /* Animasi transisi */
+}
+
+.back:hover, .share:hover {
+    background-color: rgba(255, 255, 255, 0.2); /* Efek hover */
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Shadow lebih dalam saat hover */
+}
+
+.back {
+    position: fixed;
+    top: 10px;
+    left: 5px;
+}
+
+.share {
+    position: absolute;
+    top: 10px;
+    right: 5px;
+    float: right;
+}
+
+
+.top{background-color:transparent;color: white;border:none;border-radius:50%; width:50px;height:50px;display:flex;justify-content:center; align-items: center;z-index:1000;cursor:pointer;
+text-decoration:none;}
+
+
+.share{position:absolute;top:10px;right:5px;float:right;}
+.top{position:absolute;top:2px;right: 75px;}    
+.top::before {content:"Link";font:var(--font-size) / 1 'Roboto', sans-serif;border-radius:10px; padding:2px 5px;background-color:rgba(0,0,0,0.2);}
+
+.back:hover, .share:hover, .top:hover {color: #0056b3;background-color: transparent;}
+.back .material-icons, .share .material-icons, .top .material-icons {font-size: 24px;color: #fff;}
+
+
+/* CSS untuk drop-down */
+.dropdown {
+    position: fixed; /* Menggunakan fixed positioning */
+    right: 10px; /* Posisi di sebelah kanan */
+    top: 10px; /* Posisi di bagian atas */
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0; /* Menyesuaikan drop-down agar muncul dari sisi kanan */
+    background-color: white;
+    min-width: 160px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1001;
+    border-radius: 10px;
+    padding: 10px;
+    text-align: left;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+}
+.dropdown-content a {
+            display: flex;
+            align-items: center;
+            padding: 8px 16px;
+            text-decoration: none;
+            color: black;
+        }
+        .dropdown-content a i.material-icons {
+            margin-right: 8px;
+        }
+
+.dropdown-content a:hover {
+    background-color: rgba(0, 0, 0, 0.1);
+}
+
+.dropdown-toggle {
+    background-color: rgba(255, 255, 255, 0.1);
+    color: white;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    text-decoration: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.dropdown-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.dropdown-active .dropdown-content {
+    display: block; /* Menampilkan konten drop-down ketika aktif */
+}
+</style>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.lazyload/1.9.1/jquery.lazyload.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mediaWrapper.js/1.0.0/jquery.mediaWrapper.min.js"></script>
+    
+   
+</head>
+<body>
+<div class="warning"style="display:none;"> <div class="warnings"> <h1> 🚫 Akses Terbatas</h1> <p>Website ini hanya dapat diakses melalui perangkat mobile.</p> </div> </div>
+
+
+<div class="menu">
+<a href="index.html" class="back"> <span class="material-icons"> arrow_back</span> </a>
+<!-- HTML untuk drop-down -->
+<div class="dropdown">
+    <a href="javascript:void(0)" class="dropdown-toggle">
+        <span class="material-icons">error</span>
+    </a>
+    <div class="dropdown-content">
+    <a href="JAV.html"><i class="material-icons">home</i> Beranda</a>
+    <a href="#"><i class="material-icons">person</i> Pivate</a>
+    <a href="#"><i class="material-icons">settings</i> Website</a>
+</div>
+</div>
+</div>
+
+   
+
+<div id="container" class="scroll"></div>
+       
+<script>
+const baseUrl = 'https://poop18.com/p0?id='; 
+const copyUrl = 'https://poop18.com/d/';
+const identifiers = ['w4efujnzopov', 'e7fp1q9bphc0', '8sd6jdf2ejom', 'rE9WSgpGrc7', 'meeMlSpZUVh',  '2a8uD6ywSQ1', '6ep6em95r25g', 'bivacb69rfua',
+'hy83wvu3cyaj8', 'spyozj9u8ll8',
+ 
+'pbejrc7ghfw6','yjd7ik2x0ick','d5vpflsgxudg','GtI15P3JD82','xnimp5upivxa',
+
+'quxahusqjubb','u8dp6zl1ymqs',
+'8h31odu16vm1','pltlgziryxh3',
+'a749sf52xwg0','kn1zj0g0mbea',
+'ay9uc0hswjnd','0h3a16ow8e1f',
+'d7wfqzwf8ee2','cdogp32tsici',
+'ti5ypxj0wt2e','b7m4m69ha6dd',
+
+'7v66una9uyru', 'v0ibow07sttq','1nwxt82vt2zs','8812vthg9qxv',
+'yixdlbgv2c9h', 'saxxopw6naqa',
+
+'o0qr1brfx0ld', 'fw7dwgj16sxj','wpn9b3nzv8q1', '2iw5zeuxp83q','v8e5vhyf13m4', '2lu5a2plfgpz','sycorct9ddfc', '0c39osggtk3f',
+'0ypy6ctr7zbh', '34jrae2qbki6','cfpcajvm7j0j', '7air3xvzz01m','x2I7UHtcyur',  'cpl3jnpylw1k','zeds842svwo5', 'iftxh5zb93u6','efok4ko9mqp4', 'f2na72dqvxj8','x3238ukhebxv', 'hyeznwl7tvpo','69w2nilikvc4', '1ywot1ujh46g',
+
+'fhzmw5w2toa1','mwfmr9tb2whz','e2opj60s1y95', 'easFfkVWMlZ',
+'OorV0uuSDnl',
+
+'vpvxf3abxtml', 'ttr2bo4gxgni', 's4is1d3w22ga', 'ehp8zhctk0ni', 'ayz877ah4rdb', 'lk3zqb3o4fqm', 'w8r5e37ag20a', 'jmsf291e455p', 'm19nzhwc7zg2', '7x6avwnpb4la', '6JjQUW99eIq',  '5nFfaxd2tuz', 'k39klxf81oc1', '3g34rf9n735x', '2w939n49q2r1', 'c4q2dwzaya99', 'eauzsmvszhb8', 'HLGbn5xMl2h', 'carsetaqtwsm', 'kloddlksw5t4', 'fxpdc51m66zt', '92l44ywiw1ja', 'lfG1xxmTX74',  'bnbl6kxk9qaf', '9hs62i74awdv', 'ben36wireshh', 'nrg6nbwj6wup', '8dq1it4JyrZ', '693hbehlz6vr', 'w1guk1gxdl62', '1594ggx28va7', '4ra2yw79s13i', 'Kyh1LLSQU6c',  '9nfzatlzz597', '6dv7oahem990', 'kl45cusfl225', 'rs745brhk6u1', 'xvbs6nss5t0b', 'krmf60dlbi28', 'TB3Rtqzv86P', '9b57ceh88fk9', '7qgsxw93522u', 'lwl694cw36ky', 'k4936d2qwdwm', 'uehtffng2vrd', 'xf61v5ly2a0k', '4m0a5y4ejb2l', 'aqhhf8fjjk9n', 'nyq4zaotuvdh', 'uydy90al09tp', '9avibftwwazd', 'iow20t6xt2nk',
+
+'1qw4zvkdmoxk', '0tkh9whonz7h',
+'9qzpbl6yy7w0', 'c09zaotpspup',
+'jve21dx4swaj', 'ynrab2tzeiea',
+'brz7m0rw7wre', 'uspfkwnj0mib',
+'uspfkwnj0mib', 'brz7m0rw7wre',
+'ynrab2tzeiea', '22yxxeszdsua',
+                
+'0fxh862qangd', '49u2ga2cmtyd',
+'yybz54oob7gk', 'ngkb6sl7awyh',
+'urqjlzwci7cf', 'kthbmmkq7c1i',
+'swhc8dt8x3xa', '3LxD8aGvEda',
+'motd4270o7ks', '3p4r2gfnq888',
+'2mtx85xnxm55', 'uamoiycetr8c',
+'xxxayxtap4l6', 'zt5giclgkv93',
+'jirzny68mwe6', 'hohhzrv1a3jj',
+'jdfuabz0nnhf', '6ukyra9arsjg',
+'zzvgqiiejuwa', 'qe0v1yrdsl81',
+'jdfuabz0nnhf', '0x5kfyqmxipt',
+'uc2y9j4ig85g', 'nyojg04pv4vy',
+'UCbSUaSAndv',  '5tkda0rxzs1s',
+'swBT4R6QSMY',  'qsk1a70s9rt4',
+'ywjh7vgr8z3w', 'cij122uczgqn',
+'k931dijjw7an', 'oe61o2yflioy',
+'42yr6b7p5rmx', '18vrhtomhptw',
+'r3a8hbmaftmv', 'm21n21778rnn',
+'vmxdg0voqxka', '99wuo588rxx9',
+'3vxiwocuw7ji', 'xxr4swzkxddr',
+'3r8lzghssgvb', 'sk7zyxgg5rp8',
+'sQPETpm6IEr',  '3vqv7y1p2xqw',
+'1avzrr0z553i', 'e72hq4uv27qo',
+'lv0zh5twu27i', 'sr16xpctwb1d',
+'3elhm27uagp4', 'kw4xq2i12ib4',
+'u3nvtw686a75', 'G7sNpXhKB8s',
+'ubfr1tsp6po8', '21enk1onyj9b',
+'x6qHISFsCvu',  '6djquu5fl7h4',
+'4vPjKRT1l8x',  'imirq1av1ogz']; 
+ 
+function shuffle(array) {
+for (let i = array.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [array[i], array[j]] = [array[j], array[i]]; } return array; }
+
+function updateIframeSrc() {const container = document.getElementById('container');
+
+const shuffledIdentifiers = shuffle(identifiers);
+
+shuffledIdentifiers.forEach(identifier => {const div = document.createElement('div');
+div.className = 'iframe-container';
+
+const infoDiv = document.createElement('div');
+infoDiv.className = 'video-info';
+
+const title = document.createElement('h2');
+title.textContent = identifier;
+
+const username = document.createElement('p');
+username.textContent = '';
+
+infoDiv.appendChild(title);
+infoDiv.appendChild(username);
+
+const iframe = document.createElement('iframe');
+iframe.dataset.src = `${baseUrl}${identifier}`;
+iframe.title = 'Embedded Content from doodhd.com';
+iframe.width = "570";
+iframe.height = "315";
+iframe.frameBorder = "0";
+
+const copyButton = document.createElement('button');
+copyButton.className = 'top';
+copyButton.textContent = '';
+copyButton.onclick = () => {
+navigator.clipboard.writeText(`${copyUrl}${identifier}`)
+.then(() => {alert('Link disalin!'); })
+.catch(err => { console.error('Gagal menyalin link: ', err); });    }; 
+                
+div.appendChild(infoDiv);
+div.appendChild(iframe);
+div.appendChild(copyButton);
+container.appendChild(div); }); }
+
+document.addEventListener("DOMContentLoaded", function() { updateIframeSrc();
+
+const iframes = document.querySelectorAll('iframe');
+
+
+const lazyLoad = (entries, observer) => {entries.forEach(entry => {
+if (entry.isIntersecting) {
+const iframe = entry.target;
+iframe.src = iframe.dataset.src;
+observer.unobserve(iframe);} }); };
+
+const observer = new IntersectionObserver(lazyLoad, { rootMargin: "0px 0px 200px 0px" });iframes.forEach(iframe => { observer.observe(iframe); });
+
+// Initialize jQuery lazyload plugin
+$(document).ready(function() {
+$("iframe").lazyload({
+effect: "fadeIn"}); });
+
+// Initialize jQuery mediaWrapper.js plugin
+$(document).ready(function() {
+$("iframe").mediaWrapper({
+intrinsic: true, baseWidth: 16,
+baseHeight: 9 }); }); }); </script>
+    
+<script> document.addEventListener('DOMContentLoaded', function() { document.addEventListener ('contextmenu', function(event) {event.preventDefault(); });        
+    
+// Disable F12, Ctrl+Shift+I, and Ctrl+Shift+J    
+document.addEventListener('keydown', function(event) { if (event.keyCode === 123 || // F12    
+(event.ctrlKey && event.shiftKey && (event.keyCode === 73 || event.keyCode === 74))) { // Ctrl+Shift+I or Ctrl+Shift+J event.preventDefault();  }
+ });
+
+    // Tracking function
+function trackUserActivity() {const activityData = { timestamp: new Date().toISOString(), userAgent: navigator.userAgent, url: window.location.href, };
+        
+console.log('User activity tracked:', activityData); }    
+
+trackUserActivity();document.addEventListener('click', trackUserActivity); document.addEventListener('keydown', trackUserActivity);
+
+ // Detect non-mobile devices
+if (window.innerWidth >= 768) { document.querySelector('.warning').style.display = 'block'; document.querySelector('.scroll').style.display ='none';} }); </script>
+ 
+ 
+ <script>
+// mediaWrapper.js: Simple responsive iframes
+// MIT license http://www.opensource.org/licenses/mit-license.php/
+// @author Matthew A. K. Smith http://www.akselkreis.com
+
+(function($) {
+  $.fn.mediaWrapper = function(options) {
+    var settings = $.extend({
+      intrinsic: true,
+      baseWidth: 16,
+      baseHeight: 9
+    }, options);
+
+    return this.each(function() {
+      var hRatio = '';
+
+      if (settings.intrinsic && $(this).attr("width") !== undefined && $(this).attr("height") !== undefined) {
+        hRatio = ($(this).attr("height") / $(this).attr("width")) * 100;
+      } else {
+        hRatio = (settings.baseHeight / settings.baseWidth) * 100;
+      }
+ 
+      $(this).wrap('<div class="mediaWrapper" style="position: relative; width: 100%; height:95vh; padding-bottom: ' + hRatio + '%;"></div>').css({
+        "position": "absolute",
+        "width": "100%",
+        "height": "95vh",
+        "top": "0",
+        "left": "0"
+      });
+    });
+  };
+})(jQuery);
+</script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var dropdownToggle = document.querySelector('.dropdown-toggle');
+    var dropdownContent = document.querySelector('.dropdown-content');
+    var dropdown = document.querySelector('.dropdown');
+
+    dropdownToggle.addEventListener('click', function(event) {
+        event.preventDefault();
+        dropdown.classList.toggle('dropdown-active');
+    });
+});
+</script>
+
+
+</body>
+</html> 
