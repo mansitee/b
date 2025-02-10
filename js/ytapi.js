@@ -128,7 +128,7 @@ function renderVideos(data) {
                 <span class="views"><i class="material-icons">visibility</i>${formatNumber(item.statistics.viewCount)}</span>
                 <span><i class="material-icons">thumb_up</i>${formatNumber(item.statistics.likeCount)}</span>
                 <span class="comments"><i class="material-icons">comment</i>${formatNumber(item.statistics.commentCount)}</span> 
-                <a class="watch-button" href="https://www.youtube.com/watch?v=${item.id}" target="_blank"><i class="material-icons">play_circle</i>Watch</a>
+                <a class="watch-button" href="https://m.youtube.com/watch?v=${item.id}" target="_blank"><i class="material-icons">play_circle</i>Watch</a>
                 <button class="download-button" onclick="showWarning('${item.id}')"><i class="material-icons">download</i>Unofficial and unauthorized download!.</button>
             </div>
             <button class="copy-link" onclick="copyToClipboard('https://www.youtube.com/watch?v=${item.id}')"><i class="material-icons">link</i></button>
