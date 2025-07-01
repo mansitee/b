@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head> <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge"> <meta name="renderer" content="webkit">
+<meta name="force-rendering" content="webkit">
+<meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title> Folder Video Data Offline</title>
+    <style>
+:root{--bg-color:#f4f4f9;--text-color:#333;--input-bg:#fff;--input-border:#007bff;--highlight:#007bff;--card-bg:#fff;--card-shadow:rgba(0,0,0,0.1);--category-bg:#e3f2fd}*{margin:0;padding:0;box-sizing:border-box}body{display:flex;flex-direction:column;justify-content:center;align-items:center;min-height:100vh;font-family:'Poppins',sans-serif;text-align:center;margin:20px;background:var(--bg-color);color:var(--text-color);padding:10px}.search-container{margin-bottom:20px}.search-box{width:95%;padding:12px;border-radius:8px;border:2px solid var(--input-border);box-shadow:inset 0 2px 5px var(--card-shadow);font-size:16px;background:var(--input-bg);color:var(--text-color)}.category-title{text-align:center;font-size:20px;font-weight:bold;margin-top:30px;margin-bottom:5px;padding:6px 12px;background:var(--category-bg);border-radius:5px;position:relative}.category-title::before,.category-title::after{content:"••";color:var(--highlight);font-weight:bold;margin:0 10px;font-size:20px}.data-container{display:grid;grid-template-columns:repeat(6,1fr);gap:5px;max-width:700px;margin:auto;justify-content:center;padding:5px}.data-item{border:none;padding:5px;border-radius:5px;background:var(--card-bg);box-shadow:0 4px 12px var(--card-shadow);transition:transform .2s,box-shadow .2s}.data-item:hover{transform:scale(1.02);box-shadow:0 6px 12px rgba(0,0,0,0.2)}.data-item p{margin:2px 0}.data-item a{text-decoration:none;color:#007bff;font-weight:bold;cursor:pointer}.popup,.copy-popup{display:none;position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);background:rgba(255,255,255,0.9);padding:10px;box-shadow:0 6px 15px rgba(0,0,0,0.2);border-radius:12px;text-align:center;z-index:999;width:90%;max-width:400px;font-family:'Poppins',sans-serif}.popup .notif{font-size:22px;font-weight:bold;margin-bottom:15px;color:#444}.popup .popupUrl{margin-top:10px;padding:2px;font-size:16px;border-radius:8px;background:#f9f9f9;box-shadow:inset 0 2px 5px rgba(0,0,0,0.1);font-weight:bold}.popup button,.copy-popup button{margin-top:20px;padding:5px;border:none;cursor:pointer;font-size:16px;border-radius:8px;transition:all .3s ease-in-out}.btn-continue{background:#007bff;color:#fff}.btn-continue:hover{background:#0056b3}.btn-close{background:#ccc;color:#000}.btn-close:hover{background:#aaa}.btn-copy{background:#28a745;color:#fff}.btn-copy:hover{background:#218838}.copy-popup{background:rgba(40,167,69,0.9);color:#fff;font-size:18px;animation:fadeOut 2s ease-in-out}@keyframes fadeOut{0%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(-10px)}}#categoryFloatingBar{position:fixed;bottom:0;left:0;width:100%;background:#fff;color:#fff;display:flex;flex-wrap:nowrap;justify-content:flex-start;padding:5px;gap:2px;z-index:9999;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:thin}.category-button{background:#e3f2fd;border:none;padding:8px 10px;border-radius:20px;color:#007bff;cursor:pointer;font-size:14px;white-space:nowrap;scroll-snap-align:start;flex:0 0 auto;transition:background .3s}.category-button:hover{background:#0056b3;color:#fff}
+
+
+/* Responsif Mobile */
+@media (max-width:600px) {
+    .data-container {
+        grid-template-columns: repeat(3, 1fr);
+    }
+} 
+
+#categoryFloatingBar{position:fixed;bottom:0;left:0;width:100%;background:#fff;color:white;display:flex;flex-wrap:nowrap;justify-content:flex-start;padding:5px;gap:2px;z-index:9999;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:thin}.category-button{background:#e3f2fd;border:none;padding:8px 10px;border-radius:5px;color:#007bff;cursor:pointer;font-size:14px;white-space:nowrap;scroll-snap-align:start;flex:0 0 auto;transition:background 0.3s}.category-button:hover{background:#0056b3;color:white}
+
+</style>
+</head> 
+<body>
+ <h1>Folder Video</h1>
+ <div class="search-container"><input type="text" id="searchBox" class="search-box" placeholder="Cari berdasarkan kode URL..." onkeyup="filterData()"></div><div id="dataContainer"></div><div id="categoryFloatingBar"></div><div id="popup" class="popup"><div class="notif">📢 Ingat Ya!.<div class="popupUrl"> <br/> Note📝: Domani <u> Selalu</u> Berganti - Ganti <br/> <br/> <b>Anda akan dialihkan ke:</b> <br/> <u id="popupUrl"></u><br/> <br/> </div><button class="btn-copy" onclick="copyUrl()">✏️Salin</button><button class="btn-continue" onclick="continueToUrl()">🚴‍♂️Lanjutkan</button><button class="btn-close" onclick="closePopup()">❌Tutup</button></div></div><div id="copyPopup" class="copy-popup">Link telah disalin!</div>
+
+    <script>
+        function generateID() {
+            return Math.floor(1000 + Math.random() * 9000); // ID 4 digit
+        }
+
+        const jsonData = {
+  "title": "Dashboard Data",
+  "categories": {
+  "Adek & Kakak": [ { "url": "https://mp4cash.com/f/fe50e75ti2s" }, {"url": "https://mp4cash.com/f/ktvpuf87zoy" }, { "url": "https://mp4cash.com/f/59pfm4jg1ir" }, {"url": "https://mp4cash.com/f/7siqjx7lb6k" }, { "url": "https://mp4cash.com/f/f2gr1v33lu7" }, ],
+  
+  "Aurel": [ { "url": "https://poopstream.net/f/d2mwk1ffeur" }, {"url": "https://mp4cash.com/f/cu9rw5dsdjr" }],
+     
+    "Acelina, amel, adenia, avel": [{ "url": "https://poop.ad/f/apnhu5c1xfp" }, { "url": "https://mp4cash.com/f/8r8n4ayoqwk" }, { "url": "https://mp4cash.com/f/435086jjan9" },{ "url": "https://mp4cash.com/f/c9xodeeaheu" }],
+    
+    "Aikaa Tiktokers": [{ "url": "https://poop.ad/f/e6gm53aa9ue" },
+    { "url": "https://poopstream.cc/f/mfbfaq792tm"},
+    { "url": "https://poop.ad/f/7390mzjl16l"}
+     ],
+    
+    
+    "Ayana Colmek": [{ "url": "https://bebek.ee/f/wunnxotjdcy" },  {"url": "https://mp4cash.com/f/ddtpg1keufh" } ], 
+    "Mutiara Omek": [ { "url": "https://bebek.ee/f/pxe6atwk6vp" }], 
+    
+    "Bu Guru Salsa": [
+      { "url": "https://dood.tips/f/pbbmvmpzwu1" },
+      { "url": "https://dood.tips/f/orpc4hopg3o" },
+      { "url": "https://poophd.net/f/k7xk6vhpf3k" },
+      { "url": "https://poophd.net/f/b0rasi9vpyx" },
+      { "url": "https://poop.ad/f/c3jbr8xefi3" },
+      { "url": "https://dood.is/f/bn98drw2f1i" }
+    ], 
+    "Bidan": [
+      { "url": "https://poophd.net/f/e4b2rp7ed9s" },
+      { "url": "https://poop.ad/f/bsj758mdon5" },
+      { "url": "https://poop.ad/f/pir9qfw087v" }, { "url": "https://dood.tips/f/wu66a90l5mc" }
+    ],
+   "Baju Dinas": [  { "url": "https://dood.is/f/4r2aw2svdtk" }], 
+     
+    "Balqis": [ { "url": "https://poop.ad/f/m725sfo7msv" }, { "url": "https://mp4cash.com/f/91i352c6lww" },], 
+
+    "Barat": [
+    { "url": "https://vidbe.st/f/nfhy0kaoq6j" }, { "url": "https://poopstream.cc/f/4zat13qtubc" }], 
+    
+    "Ciya Omek Smp": [{ "url": "https://poophd.net/f/rf64a1mdntf" }, { "url": "https://poop.ad/f/ee1wmxws98a" }, { "url": "https://dood.is/f/5yysmmlwf1r" }, { "url": "https://poopstream.cc/f/v18v6m391v4" }], 
+    
+    "Cella Dini": [{ "url": "https://poophd.net/f/oaleppxtsb2" },
+      { "url": "https://poophd.net/f/x64kdtc4gk3" }, { "url": "https://mp4.bio/f/euhoe3g4n2l" }, { "url": "https://mp4.bio/f/lb5yqn3rq16" }, { "url": "https://mp4cash.com/f/yirkhr7c8tg" }, ], 
+      
+    "Cacil, Citra, Cindy, Cici, Claw, Coryna": [{ "url": "https://bebek.ee/f/2c5s6ov7453" }, { "url": "https://mp4cash.com/f/jkezc99rhiy" }, { "url": "https://mp4cash.com/f/4r3qrwz4x9x" }, { "url": "https://mp4cash.com/f/yo3yer6hanx" },{ "url": "https://mp4cash.com/f/qhu8etzjid9" },{ "url": "https://videq.cloud/f/5rpylpksx5j" },{ "url": "https://videq.cloud/f/rikoiqo21hm" },], 
+    
+    "Celva Omek": [{ "url": "https://mp4cash.com/f/m430yy96pxz" }, { "url": "https://mp4cash.com/f/y7r1x2qlwij" }, ], 
+    
+
+ "Cosplayer": [ { "url": "https://mp4.bio/f/w174libqsfm" }, { "url": "https://videq.cloud/f/kv8zm3dqzje" }, ],
+
+    "CCTV": [
+      { "url": "https://dood.tips/f/px9zd927eu8" },
+      { "url": "https://poophd.net/f/41ydiu0vsgw" },
+      { "url": "https://poophd.net/f/aa8kqeryxcl" },
+      { "url": "https://bebek.ee/f/3f0dybuh57z" }
+    ],
+    
+  "Chindo": [
+    { "url": "https://poopstream.net/f/e29bt0v4wp8" },
+    { "url": "https://poophd.net/f/ghfej3nws6e" },
+    { "url": "https://poophd.net/f/w7t1mnu69bg" },
+    { "url": "https://poop.ad/f/zvz7r09jnv7" },
+    { "url": "https://poop.ad/f/zvz7r09jnv" },
+    { "url": "https://poop.ad/f/2car12tywl3" }],
+    
+  "Di kebun, Semak, Taman, Pantai": [{ "url": "https://poophd.net/f/3jqolboai2c" },{ "url": "https://poop.ad/f/nvaabct102r" }, { "url": "https://poop.st/f/ayadfaa9n0s" },{ "url": "https://dood.meme/f/3wbg6sap7ce" }, {"url": "https://dood.tips/f/ad0whj0d98o" },{"url": "https://poopstream.cc/f/h7y56mzurrd" }   ],
+    
+  "Dinda Tobrut": [ { "url": "https://poophd.net/f/rh2pv6vwrh8" },
+      { "url": "https://poophd.net/f/xxtt365op9d" },
+      { "url": "https://poop.ad/f/bs0nkpqpix9" },
+      { "url": "https://bebek.ee/f/bpwbnp2oeuk" },
+      { "url": "https://poop.ad/f/srydu0qylg4" },
+      { "url": "https://poop.ad/f/dg7u7cbp542" } ],
+      
+      "Dildo": [ { "url": "https://mp4cash.com/f/y9a3lulx4rq" },{ "url": "https://mp4cash.com/f/wuuu4pv64nb" },],
+    
+  "Exhibition": [ { "url": "https://vidbe.st/f/pn2jj49ycow" },
+      { "url": "https://vidbe.st/f/qiia5uy1666" },
+      { "url": "https://dood.is/f/0efa6oleaas" },
+      { "url": "https://poophd.net/f/n7cgyty924z" } ],
+    
+  "Elsa": [ { "url": "https://dood.is/f/lr6mtqmk2b5" }, { "url": "https://mp4.bio/f/8nn8kyvgucb" }],
+
+  "Hewan Vs": [ { "url": "https://mp4.bio/f/kxueq0xip65" }, { "url": "https://mp4cash.com/f/k5nipvzg95u" }],
+  
+      "Hijab": [
+    { "url": "https://dood.is/f/9t1yfl3q8sa" },
+    { "url": "https://dood.is/f/8wttdfe5meq" },
+    { "url": "https://poop.ad/f/4478pb3k37h" },
+    { "url": "https://poop.ad/f/zizbz3d6zkc" },
+    { "url": "https://bebek.ee/f/eulaa88b8pm" },
+    { "url": "https://bebek.ee/f/czz2twmtgxd" },
+    { "url": "https://bebek.ee/f/mwj8qiotiib" },
+    { "url": "https://bebek.ee/f/zwp6pyb6342" },
+    { "url": "https://poophd.net/f/86o0xr7tfjb" },
+    { "url": "https://poop.ad/f/g189rk5p4gp" },
+    { "url": "https://poop.ad/f/eehgbh7xayt" },
+    { "url": "https://poop.ad/f/8mmpjhy3kso" },
+    { "url": "https://dood.is/f/htecsenk5mf" },
+    { "url": "https://dood.is/f/1kucwnla7v4" },
+    { "url": "https://poop.ad/f/03u3e0278uf" },
+    { "url": "https://dood.tips/f/old7ydokgv8" },
+    { "url": "https://dood.is/f/jc0kchzghc1" },
+    { "url": "https://poophd.net/f/1k5or9dy5ql" },
+    { "url": "https://poophd.me/f/kkazzpx42hl" },
+    { "url": "https://poophd.net/f/clo7c54fs26" },
+    { "url": "https://poopstream.cc/f/bs0nkpqpix9" },
+    { "url": "https://poopstream.cc/f/lvs02h3caa9" },
+    { "url": "https://dood.is/f/jc0kchzghc1" },
+    { "url": "https://vidbe.st/f/6tkqlxsulkt" },
+    { "url": "https://poop.st/f/8q1youwfszl" },
+    { "url": "https://poop.st/f/in8pyacv6bf" },
+    { "url": "https://poophd.net/f/00a4aljfed3" },
+    { "url": "https://poophd.net/f/o7brzmgiypc" },
+    { "url": "https://poophd.net/f/qdw67ifgzj7" },
+    { "url": "https://poophd.net/f/c3nune2jth0" },
+    { "url": "https://poophd.net/f/hzxydyxg72v" },
+    { "url": "https://poophd.net/f/qhyamrxxdbo" },
+    { "url": "https://poophd.net/f/8ne1r00fadk" },
+    { "url": "https://poophd.net/f/x0d2jlx9yd8" },
+    { "url": "https://poophd.net/f/yenxmtyii4n" },
+    { "url": "https://poophd.net/f/0e3fny5371o" },
+    { "url": "https://poophd.net/f/mwuaj35cp00" },
+    { "url": "https://mp4cash.com/f/5yecjtsr31r" }
+  ],
+  
+  "Kazume omek": [ { "url": "https://mp4cash.com/d/iws2k9xqlebb"} ],
+  
+  "Kacamata, Hyper, mobil": [ { "url": "https://mp4cash.com/f/ferk976j3og"}, { "url": "https://mp4cash.com/f/w99yzenvb78" }, { "url": "https://mp4cash.com/f/rgf5fnatp90" }, ],
+   
+   
+  "Laura": [ { "url": "https://poophd.net/f/7qaywnv49sa" },
+      { "url": "https://poophd.net/f/sdxqvx94jmb" },
+      { "url": "https://poophd.net/f/cx8p1hkkzhn" },
+      { "url": "https://poop.ad/f/fo589mxt9hw" }, { "url": "https://poopstream.cc/f/0me7b7gzdjk" } ],
+ 
+ "Midya Ocil": [ { "url": "https://poop.ad/f/fuawvjlwpo0" },],     
+  
+ "Mika lyora, Miftahul": [ { "url": "https://dood.is/f/ecpmp4mu5zn" }, { "url": "https://vidbe.st/f/lbcnzq60y4l" },{ "url": "https://mp4cash.com/e/r0m9nwu7swql" },],     
+  
+
+  "Muncrat": [ { "url": "https://poopstream.cc/f/3ec4trnft62" },
+      { "url": "https://poophd.net/f/j69tbss47k7" },
+      { "url": "https://poophd.net/f/7ydypn6pnya" },
+      { "url": "https://poophd.net/f/9v3kuayqh2l" },
+      { "url": "https://poopstream.blog/f/tbkg6o1j60k" } ],
+   
+    "Ngintip": [ { "url": "https://poophd.net/f/qa16768jpd1" },
+    { "url": "https://poophd.net/f/zfelqlmicjy" },
+    { "url": "https://poop.st/f/3hjw4e7ur8o" },
+    { "url": "https://mp4cash.com/f/4agh6yw1zfb" },
+    { "url": "https://poop.ad/f/4agh6yw1zfb" }, { "url": "https://poop.ad/f/1p6pahys4zx" }, { "url": "https://doood.cam/f/4za18o6anfd" }, { "url": "https://vidbe.st/f/vrfjigamb8f" },
+      { "url": "https://dood.is/f/n09klw8yq67" },
+      { "url": "https://poopstream.cc/f/36shq4mwdfz" },],  
+      
+  "Nayla dan nisa": [ { "url": "https://mp4.bio/f/wszw0l9to7f" },   { "url": "https://mp4cash.com/f/d3kmgh12by2" }, { "url": "https://mp4cash.com/f/bl6m8kxs8t4" }, { "url": "https://mp4cash.com/f/ucvhr3z5jbt" },  { "url": "https://vide.cx/f/d5hx84wfqzo" }],
+  
+  "Nindy Ayu Mahasiswi": [ { "url": "https://mp4cash.com/f/5q8n9f7y4i2" }, { "url": "https://mp4cash.com/f/2ymaz7i5ytm" } ],
+        
+    "Neng Elga dan Nanda": [ { "url": "https://poopstream.cc/f/r2k5gfybskv" },    { "url": "https://mp4cash.com/f/aunja04rikm" }, { "url": "https://mp4cash.com/f/czqfr2ak6tl" },  ],
+       
+  "Ometv Full": [ { "url": "https://mp4cash.com/f/8lb6wuw4ydb" } ],
+  
+  "Ocil dan tocil": [ { "url": "https://mp4cash.com/f/ag0w4c66le6" }, { "url": "https://mp4cash.com/f/g4kyh6cykd9" },   { "url": "https://videy.cx/f/5zxkteqhp78" }, { "url": "https://mp4cash.com/f/bf90e5gkm6l" },  ],
+    
+  "Omek all": [ { "url": "https://mp4cash.com/f/hruejjywveu" }, { "url": "https://mp4cash.com/f/1ja6f4esa1k" },  ],
+   
+      
+    
+  "Publik Agent": [
+    { "url": "https://dood.is/f/5rnjar24fn2" },
+    { "url": "https://dood.is/f/k923j3061yg" }, { "url": "https://mp4cash.com/f/lyzllza0q4m" } ],    
+      
+  "Pramuka": [{ "url": "https://poophd.net/f/hm8is8ee3hs" },
+      { "url": "https://poop.ad/f/4478pb3k37h" },],
+      
+      "Pasutri Depok": [ { "url": "https://mp4cash.com/f/qqwf988qec2" } ],
+    
+
+  "Panya": [ { "url": "https://bebek.ee/f/864jzo43p7y" }, { "url": "https://poop.ad/f/o8vzw1lr7n9" }],
+
+"Rae lil black": [ { "url": "https://poopstream.cc/f/9vo1n2jjvkp" }],
+ 
+"Rania / Sania": [ { "url": "https://dood.is/f/1qz5dpmt8nz" }, { "url": "https://mp4cash.com/f/64vwd4skiuk" },{ "url": "https://mp4cash.com/f/nlgfdgr8qzz" }, { "url": "https://mp4cash.com/f/rpwxckjddlm" }],
+ 
+"Random full": [ { "url": "https://mp4cash.com/f/srzay1psrsv" }, { "url": "https://mp4cash.com/f/hyt39945b0y" },{ "url": "https://mp4cash.com/f/8sn106xjpv6" }, { "url": "https://mp4cash.com/f/2h0h6m2tbzh" }, { "url": "https://mp4cash.com/f/z3kbs2am5pi" }, { "url": "https://mp4cash.com/f/3gs7q5oscsd" }, { "url": "https://vide.cx/f/hfn7gc1btf8" }, { "url": "https://vide.cx/f/tllcz4un3qp" } , { "url": "https://vide.cx/f/3xbaqu5btbf" }],
+
+"Ratu yuyun, Rare, Resha": [ { "url": "https://mp4.bio/f/rihis2nrfg8" }, { "url": "https://mp4cash.com/f/vbwf3i8z0wu" }, { "url": "https://mp4cash.com/f/77hsmj0n1xx" },{ "url": "https://mp4cash.com/f/4st3y54iopy" }, ],
+  
+"Sri Omek, Siska Amelia, Sania, Sakit": [ { "url": "https://poop.ad/f/bbngrswmv8y" }, { "url": "https://mp4cash.com/f/ppji35zmf2s" }, { "url": "https://videq.stream/f/6tmjxey9ka9" }, { "url": "https://vide.cx/f/64vwd4skiuk" }, { "url": "https://vide.cx/f/xl6pvliy2y4" }],
+ 
+      "Syailong": [ { "url": "https://poophd.net/f/2syk6g46vyb" }, { "url": "https://poop.st/f/yeun5icij34" }, { "url": "https://videq.cloud/f/vk7tvpqy6o1" }],
+
+ "Timun Dan Terong": [ { "url": "https://poopstream.cc/f/h7s5n4sdpcp" },  {"url": "https://mp4cash.com/f/txke1bbswl1" }],
+
+ "Telegram , tiktok": [ { "url": "https://mp4cash.com/f/by6wlgm83d3" }, { "url": "https://mp4cash.com/f/mhueicn4sfu" },
+ { "url": "https://mp4cash.com/f/waz7g0yzfb9" }],
+   
+   
+    "JAV": [ 
+  { "url": "https://poop.ad/f/o2j1q5ietya" }, 
+  { "url": "https://mp4cash.com/f/sr5lpezn6at" }, 
+  { "url": "https://poop.ad/f/nojkdoz7k71" }, 
+{ "url": "https://poop.st/f/nstjyhrwvuj" }, 
+{ "url": "https://dood.is/f/qiouvc63ozs" },
+      { "url": "https://dood.is/f/bdh8zfwuuz9" },
+      { "url": "https://poop.st/f/9rsk4ecr8am" },
+      { "url": "https://dood.is/f/wmwemnpxdia" },
+      { "url": "https://dood.tips/f/0iz90vg905s" },
+      { "url": "https://dood.tips/f/n4oqt2mrebg" },
+      { "url": "https://poop.ad/f/ywfqa97mbpr" },
+      { "url": "https://poop.ad/f/1h9c5l9ac41" },
+      { "url": "https://dood.is/f/c2rlroi0qpf" },
+      { "url": "https://poophd.me/f/m2kqlhylza4" },
+      { "url": "https://dood.is/f/bdh8zfwuuz9" },
+      { "url": "https://mp4cash.com/f/i6au84twa96" },
+      { "url": "https://poophd.net/f/rk24lswa56o" },
+      { "url": "https://dood.is/f/8wttdfe5meq" },    { "url": "https://mp4cash.com/f/agmnlt319zq" }, { "url": "https://mp4cash.com/f/ch8pb3nn1l6" },  
+ ],
+ "VCS Full": [ { "url": "https://mp4cash.com/f/48f1kvqyhyz" } ],
+    
+    
+ "Winnie Omek": [ { "url": "https://dood.zip/f/r7pyykhc8u4" }],
+ 
+    
+
+  }
+};
+
+ function extractUrlCode(e){return e.split("/f/")[1]||"Unknown"}function displayData(e=""){const t=document.getElementById("dataContainer");t.innerHTML="";Object.keys(jsonData.categories).forEach(n=>{const i=document.createElement("div");i.className="category-title",i.textContent=n,t.appendChild(i);const o=document.createElement("div");o.className="data-container",t.appendChild(o),jsonData.categories[n].forEach(t=>{const n=extractUrlCode(t.url);(""===e||n.includes(e))&&(item=document.createElement("div"),item.className="data-item",item.innerHTML=`<p><a href="#" onclick="openPopup('${t.url}')" rel="noopener noreferrer">${n}</a></p>`,o.appendChild(item))})})}function displayFloatingCategories(){const e=document.getElementById("categoryFloatingBar");e.innerHTML="",Object.keys(jsonData.categories).forEach(t=>{const n=document.createElement("button");n.className="category-button",n.textContent=t,n.onclick=()=>{document.getElementById("searchBox").value="",displayData(""),document.querySelectorAll(".category-title").forEach(e=>{e.textContent===t&&e.scrollIntoView({behavior:"smooth",block:"start"})})},e.appendChild(n)})}function filterData(){const e=document.getElementById("searchBox").value.toLowerCase();displayData(e)}function openPopup(e){targetUrl=e,document.getElementById("popupUrl").textContent=e,document.getElementById("popup").style.display="block"}function closePopup(){document.getElementById("popup").style.display="none"}function continueToUrl(){window.open(targetUrl,"_blank"),closePopup()}function copyUrl(){navigator.clipboard.writeText(targetUrl).then(()=>{const e=document.getElementById("copyPopup");e.style.display="block",setTimeout(()=>{e.style.display="none"},2e3)})}displayData(),displayFloatingCategories();
+         </script>
+         
+</body>
+</html>
